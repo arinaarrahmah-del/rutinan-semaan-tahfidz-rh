@@ -1,4 +1,4 @@
-import { kirimSemaan } from "./firebase.js";
+import { kirimSemaan, pantauSemaan } from "./firebase.js";
 const members = {
   "Ning Ilmiah":"pending",
   "Afifatul H.":"pending",
@@ -35,13 +35,36 @@ function getJuzHariIni(){
 }
 function getMateriHariIni(){
 
-  const juz = getJuzHariIni();
+  const juz = getJuzHariIni();     
+  
 
   if(juz === 30){
     return "Juz 30 + Do'a";
   }
 
   return "Juz " + juz;
+}
+
+function mulaiPantauSemaan(){
+
+  const sekarang = new Date();
+
+  const tanggal = sekarang.toISOString().split("T")[0];
+
+  pantauSemaan(tanggal, (data) => {
+
+    Object.keys(data).forEach(nama => {
+
+      if(members.hasOwnProperty(nama)){
+        members[nama] = data[nama];
+      }
+
+    });
+
+    renderStatus();
+
+  });
+
 }
 
 function show(id){
@@ -67,6 +90,9 @@ function login(){
  document.getElementById("namaUser").innerText=currentUser;
 
  renderStatus();
+
+mulaiPantauSemaan();
+  
  show("dashboard");
 
 }
