@@ -13,6 +13,28 @@ const members = {
 
 let currentUser="";
 
+function getJuzHariIni(){
+
+  const awal = new Date("2026-10-01T00:00:00");
+  const sekarang = new Date();
+
+  awal.setHours(0,0,0,0);
+  sekarang.setHours(0,0,0,0);
+
+  const selisihHari = Math.floor(
+    (sekarang - awal) / (1000 * 60 * 60 * 24)
+  );
+
+  const siklus = selisihHari % 37;
+
+  if(siklus <= 6){
+    return siklus + 24;
+  }
+
+  return siklus - 6;
+}
+
+
 function show(id){
  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
  document.getElementById(id).classList.add("active");
@@ -48,20 +70,28 @@ function logout(){
 
 }
 
-function setStatus(status){
-  kirimSemaan({
-  nama: currentUser,
-  status: status,
-  juz: 17,
-  tanggal: "2026-09-29",
-  createdAt: new Date()
-});
+async function setStatus(status){
 
- members[currentUser]=status;
+  const sekarang = new Date();
 
- renderStatus();
+  const tanggal = sekarang.toISOString().split("T")[0];
+
+  const juz = getJuzHariIni();
+
+  members[currentUser]=status;
+
+  await kirimSemaan({
+    nama: currentUser,
+    status: status,
+    juz: juz,
+    tanggal: tanggal,
+    createdAt: new Date()
+  });
+
+  renderStatus();
 
 }
+
 
 function renderStatus(){
 
