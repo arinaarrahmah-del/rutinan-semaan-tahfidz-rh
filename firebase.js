@@ -3,7 +3,10 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebas
 import {
   getFirestore,
   collection,
-  addDoc
+  addDoc,
+  query,
+  where,
+  onSnapshot
 } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-firestore.js";
 
 // Konfigurasi Firebase
@@ -29,4 +32,28 @@ export async function kirimSemaan(data) {
     console.error(e);
     alert("Gagal mengirim laporan.");
   }
+}
+export function pantauSemaan(tanggal, callback) {
+
+  const q = query(
+    collection(db, "dailyReports"),
+    where("tanggal", "==", tanggal)
+  );
+
+  onSnapshot(q, (snapshot) => {
+
+    const data = {};
+
+    snapshot.forEach((doc) => {
+
+      const laporan = doc.data();
+
+      data[laporan.nama] = laporan.status;
+
+    });
+
+    callback(data);
+
+  });
+
 }
