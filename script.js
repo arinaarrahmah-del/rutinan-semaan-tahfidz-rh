@@ -25,7 +25,7 @@ function getJuzHariIni(){
     (sekarang - awal) / (1000 * 60 * 60 * 24)
   );
 
-  const siklus = selisihHari % 37;
+  const siklus = selisihHari % 30;
 
   if(siklus <= 6){
     return siklus + 24;
@@ -33,7 +33,16 @@ function getJuzHariIni(){
 
   return siklus - 6;
 }
+function getMateriHariIni(){
 
+  const juz = getJuzHariIni();
+
+  if(juz === 30){
+    return "Juz 30 + Do'a";
+  }
+
+  return "Juz " + juz;
+}
 
 function show(id){
  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
@@ -77,17 +86,20 @@ async function setStatus(status){
   const tanggal = sekarang.toISOString().split("T")[0];
 
   const juz = getJuzHariIni();
+  
+  
 
   members[currentUser]=status;
 
-  await kirimSemaan({
-    nama: currentUser,
-    status: status,
-    juz: juz,
-    tanggal: tanggal,
-    createdAt: new Date()
-  });
-
+await kirimSemaan({
+  nama: currentUser,
+  status: status,
+  juz: juz,
+  materi: getMateriHariIni(),
+  tanggal: tanggal,
+  createdAt: new Date()
+});
+  
   renderStatus();
 
 }
