@@ -36,6 +36,13 @@ font-size:70px;
 margin-bottom:20px;
 }
 
+.logo img{
+width:130px;
+height:130px;
+object-fit:contain;
+border-radius:50%;
+}
+
 h1{
 font-size:32px;
 line-height:1.2;
