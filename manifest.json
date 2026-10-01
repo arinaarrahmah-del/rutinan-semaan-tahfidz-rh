@@ -1,0 +1,17 @@
+{
+  "name": "RUTINAN SEMAAN TAHFIDZ RH",
+  "short_name": "Semaan RH",
+  "description": "One Juz Every Day",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#0b2e1f",
+  "theme_color": "#0b2e1f",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "file_000000009fcc8211bc4c9f3e631f5b55.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
