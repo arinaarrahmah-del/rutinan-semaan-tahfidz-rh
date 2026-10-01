@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RUTINAN SEMAAN TAHFIDZ RH</title>
+
+<link rel="stylesheet" href="style.css">
+<link rel="manifest" href="manifest.json">
+</head>
+
+<body>
+
+<div id="splash" class="page active">
+
+<div class="logo">📖</div>
+  <img src="https://github.com/arinaarrahmah-del/rutinan-semaan-tahfidz-rh/commit/ea584f5bbf95f9bf8ca42ad71323ffd7d2b29a92" alt="Logo RH" class="logo-img">
+
+<h1>RUTINAN<br>SEMAAN TAHFIDZ RH</h1>
+
+<div class="subtitle">One Juz Every Day</div>
+
+<div class="card">
+<button onclick="openLogin()">Masuk ke Aplikasi</button>
+</div>
+
+</div>
+
+<div id="login" class="page">
+
+<div class="logo">📖</div>
+
+<h1>Masuk</h1>
+
+<div class="card">
+
+<select id="member">
+
+<option>Ning Ilmiah</option>
+<option>Afifatul H.</option>
+<option>Amirotul M.</option>
+<option>Nur Maimanah</option>
+<option>Millatul I.</option>
+<option>Ana Mustafidah</option>
+<option selected>Arinirrahmah</option>
+<option>Fitri Ayu Ningsih</option>
+<option>Shafira Chairani</option>
+
+</select>
+
+<input id="pin" type="password" placeholder="PIN demo 1234">
+
+<button onclick="login()">Masuk</button>
+
+</div>
+
+</div>
+
+<div id="dashboard" class="page"
+  </div>
+
+<div class="header">
+
+<div>
+<div>Assalamu'alaikum</div>
+<h3 id="namaUser"></h3>
+</div>
+
+<button style="width:auto;padding:10px 16px;" onclick="logout()">Keluar</button>
+
+</div>
+
+<div class="card">
+
+<div>Kamis, 24 September 2026</div>
+
+<h1>Juz 17</h1>
+
+<div class="subtitle">One Juz Every Day</div>
+
+</div>
+
+<div class="card">
+
+<h3>Status Saya</h3>
+
+<div class="status-grid">
+
+<button class="green" onclick="setStatus('done')">
+💞 Selesai
+</button>
+
+<button class="red" onclick="setStatus('sick')">
+💔 Sakit
+</button>
+
+<button class="orange" onclick="setStatus('haid')">
+⛔ Haid
+</button>
+
+<button class="gray" onclick="setStatus('pending')">
+⏳ Belum
+</button>
+
+</div>
+
+<script type="module" src="script.js"></script>
+
+</body>
+</html>
+<div class="card">
+
+<div style="display:flex;justify-content:space-between;">
+
+<span>Progress Jamaah</span>
+
+<span id="progressText">0/9 selesai</span>
+
+</div>
+
+<div class="progress">
+
+<span id="progressBar"></span>
+
+</div>
+
+<div id="memberList" style="margin-top:15px;"></div>
+
+</div>
