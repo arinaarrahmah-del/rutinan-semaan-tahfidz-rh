@@ -36,7 +36,6 @@ function login(){
  document.getElementById("namaUser").innerText=currentUser;
 
  renderStatus();
-
  show("dashboard");
 
 }
@@ -100,3 +99,9 @@ function renderStatus(){
  document.getElementById("progressBar").style.width=`${selesai/9*100}%`;
 
 }
+
+window.show = show;
+window.openLogin = openLogin;
+window.login = login;
+window.logout = logout;
+window.setStatus = setStatus;
