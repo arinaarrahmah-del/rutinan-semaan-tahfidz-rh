@@ -1,67 +1,89 @@
 import { kirimSemaan, pantauSemaan } from "./firebase.js";
+
 const members = {
-  "Ning Ilmiah":"pending",
-  "Afifatul H.":"pending",
-  "Amirotul M.":"pending",
-  "Nur Maimanah":"pending",
-  "Millatul I.":"pending",
-  "Ana Mustafidah":"pending",
-  "Arinirrahmah":"pending",
-  "Fitri Ayu Ningsih":"pending",
-  "Shafira Chairani":"pending"
+  "Ning Ilmiah": "pending",
+  "Afifatul H.": "pending",
+  "Amirotul M.": "pending",
+  "Nur Maimanah": "pending",
+  "Millatul I.": "pending",
+  "Ana Mustafidah": "pending",
+  "Arinirrahmah": "pending",
+  "Fitri Ayu Ningsih": "pending",
+  "Shafira Chairani": "pending"
 };
 
-let currentUser="";
+let currentUser = "";
 
-function getJuzHariIni(){
+
+/* =========================
+   JUZ HARI INI
+========================= */
+
+function getJuzHariIni() {
 
   const awal = new Date("2026-10-01T00:00:00");
   const sekarang = new Date();
 
-  awal.setHours(0,0,0,0);
-  sekarang.setHours(0,0,0,0);
+  awal.setHours(0, 0, 0, 0);
+  sekarang.setHours(0, 0, 0, 0);
 
   const selisihHari = Math.floor(
     (sekarang - awal) / (1000 * 60 * 60 * 24)
   );
 
-  const siklus = selisihHari % 30;
+  const siklus = ((selisihHari % 30) + 30) % 30;
 
-  if(siklus <= 6){
+  if (siklus <= 6) {
     return siklus + 24;
   }
 
   return siklus - 6;
 }
-function getMateriHariIni(){
-  function tampilkanHAriIni(){
-    const sekarang = new Date();
 
-    const tanggal =
-      sekarang.toLocaleDatteString("id-ID", {
-        weekday: "long",
-        day: "numeric" ,
-        month: "long",
-        year: "numeric"
-      });
-    document.getElementById("tanggalHariIni"
-                           ).innerText = tanggal;
 
-    document.getElementById("juzHariIni").innerText = 
-      getMateriHariIni();
-  }
+/* =========================
+   MATERI HARI INI
+========================= */
 
-  const juz = getJuzHariIni();     
-  
+function getMateriHariIni() {
 
-  if(juz === 30){
+  const juz = getJuzHariIni();
+
+  if (juz === 30) {
     return "Juz 30 + Do'a";
   }
 
   return "Juz " + juz;
 }
 
-function mulaiPantauSemaan(){
+
+/* =========================
+   TAMPILKAN TANGGAL & JUZ
+========================= */
+
+function tampilkanHariIni() {
+
+  const sekarang = new Date();
+
+  const tanggal = sekarang.toLocaleDateString("id-ID", {
+    weekday: "long",
+    day: "numeric",
+    month: "long",
+    year: "numeric"
+  });
+
+  document.getElementById("tanggalHariIni").innerText = tanggal;
+
+  document.getElementById("juzHariIni").innerText =
+    getMateriHariIni();
+}
+
+
+/* =========================
+   PANTAU SEMUA JAMAAH
+========================= */
+
+function mulaiPantauSemaan() {
 
   const sekarang = new Date();
 
@@ -71,7 +93,7 @@ function mulaiPantauSemaan(){
 
     Object.keys(data).forEach(nama => {
 
-      if(members.hasOwnProperty(nama)){
+      if (members.hasOwnProperty(nama)) {
         members[nama] = data[nama];
       }
 
@@ -83,107 +105,167 @@ function mulaiPantauSemaan(){
 
 }
 
-function show(id){
- document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
- document.getElementById(id).classList.add("active");
+
+/* =========================
+   PINDAH HALAMAN
+========================= */
+
+function show(id) {
+
+  document
+    .querySelectorAll(".page")
+    .forEach(p => p.classList.remove("active"));
+
+  document.getElementById(id).classList.add("active");
 }
 
-function openLogin(){
- show("login");
-}
 
-function login(){
+/* =========================
+   BUKA LOGIN
+========================= */
 
- const pin=document.getElementById("pin").value;
+function openLogin() {
 
- if(pin!=="1234"){
-  alert("PIN demo: 1234");
-  return;
- }
-
- currentUser=document.getElementById("member").value;
-
- document.getElementById("namaUser").innerText=currentUser;
-
- renderStatus();
-  tampilkanHAriIni();
-
-mulaiPantauSemaan();
-  
- show("dashboard");
+  show("login");
 
 }
 
-function logout(){
 
- document.getElementById("pin").value="";
+/* =========================
+   LOGIN
+========================= */
 
- show("login");
+function login() {
+
+  const pin = document.getElementById("pin").value;
+
+  if (pin !== "1234") {
+
+    alert("PIN demo: 1234");
+
+    return;
+  }
+
+  currentUser =
+    document.getElementById("member").value;
+
+  document.getElementById("namaUser").innerText =
+    currentUser;
+
+  renderStatus();
+
+  tampilkanHariIni();
+
+  mulaiPantauSemaan();
+
+  show("dashboard");
 
 }
 
-async function setStatus(status){
+
+/* =========================
+   LOGOUT
+========================= */
+
+function logout() {
+
+  document.getElementById("pin").value = "";
+
+  show("login");
+
+}
+
+
+/* =========================
+   KIRIM STATUS
+========================= */
+
+async function setStatus(status) {
 
   const sekarang = new Date();
 
-  const tanggal = sekarang.toISOString().split("T")[0];
+  const tanggal =
+    sekarang.toISOString().split("T")[0];
 
   const juz = getJuzHariIni();
-  
-  
 
-  members[currentUser]=status;
+  members[currentUser] = status;
 
-await kirimSemaan({
-  nama: currentUser,
-  status: status,
-  juz: juz,
-  materi: getMateriHariIni(),
-  tanggal: tanggal,
-  createdAt: new Date()
-});
-  
+  await kirimSemaan({
+
+    nama: currentUser,
+    status: status,
+    juz: juz,
+    materi: getMateriHariIni(),
+    tanggal: tanggal,
+    createdAt: new Date()
+
+  });
+
   renderStatus();
 
 }
 
 
-function renderStatus(){
+/* =========================
+   RENDER STATUS JAMAAH
+========================= */
 
- const list=document.getElementById("memberList");
+function renderStatus() {
 
- if(!list) return;
+  const list =
+    document.getElementById("memberList");
 
- list.innerHTML="";
+  if (!list) return;
 
- let selesai=0;
+  list.innerHTML = "";
 
- Object.keys(members).forEach(nama=>{
+  let selesai = 0;
 
-  const s=members[nama];
+  Object.keys(members).forEach(nama => {
 
-  let emoji="⏳";
+    const s = members[nama];
 
-  let text="Belum";
+    let emoji = "⏳";
+    let text = "Belum";
 
-  if(s==="done"){emoji="💞";text="Selesai";selesai++;}
-  if(s==="sick"){emoji="💔";text="Sakit";}
-  if(s==="haid"){emoji="⛔";text="Haid";}
+    if (s === "done") {
+      emoji = "💞";
+      text = "Selesai";
+      selesai++;
+    }
 
-  list.innerHTML += `
-  <div class="row">
-    <span>${emoji} ${nama}</span>
-    <span>${text}</span>
-  </div>
-  `;
+    if (s === "sick") {
+      emoji = "💔";
+      text = "Sakit";
+    }
 
- });
+    if (s === "haid") {
+      emoji = "⛔";
+      text = "Haid";
+    }
 
- document.getElementById("progressText").innerText=`${selesai}/9 selesai`;
+    list.innerHTML += `
+      <div class="row">
+        <span>${emoji} ${nama}</span>
+        <span>${text}</span>
+      </div>
+    `;
 
- document.getElementById("progressBar").style.width=`${selesai/9*100}%`;
+  });
+
+  document.getElementById("progressText").innerText =
+    `${selesai}/9 selesai`;
+
+  document.getElementById("progressBar").style.width =
+    `${selesai / 9 * 100}%`;
 
 }
+
+
+/* =========================
+   HUBUNGKAN DENGAN HTML
+========================= */
 
 window.show = show;
 window.openLogin = openLogin;
