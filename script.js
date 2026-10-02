@@ -34,6 +34,22 @@ function getJuzHariIni(){
   return siklus - 6;
 }
 function getMateriHariIni(){
+  function tampilkanHAriIni(){
+    const sekarang = new Date();
+
+    const tanggal =
+      sekarang.toLocaleDatteString("id-ID", {
+        weekday: "long",
+        day: "numeric" ,
+        month: "long",
+        year: "numeric"
+      });
+    document.getElementById("tanggalHariIni"
+                           ).innerText = tanggal;
+
+    document.getElementById("juzHariIni").innerText = 
+      getMateriHariIni();
+  }
 
   const juz = getJuzHariIni();     
   
@@ -90,6 +106,7 @@ function login(){
  document.getElementById("namaUser").innerText=currentUser;
 
  renderStatus();
+  tampilkanHAriIni();
 
 mulaiPantauSemaan();
   
